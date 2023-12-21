@@ -1,0 +1,41 @@
+import numpy as np
+
+class BaseDescent:
+    def __init__(self, learning_rate=0.01, max_iters=1000):
+        self.learning_rate = learning_rate
+        self.max_iters = max_iters
+        self.weights = None
+        self.loss_history = []
+
+    def calc_loss(self, x, y):
+        """
+        Вычисляет среднеквадратичную ошибку (MSE) между предсказанными значениями и истинными значениями.
+
+        Parameters:
+        - x: numpy array, признаки
+        - y: numpy array, истинные значения
+
+        Returns:
+        - loss: float, среднеквадратичная ошибка
+        """
+        # Предсказанные значения
+        y_pred = self.predict(x)
+        # Среднеквадратичная ошибка
+        loss = np.mean((y_pred - y) ** 2)
+        return loss
+
+    def predict(self, x):
+        """
+        Предсказывает значения на основе переданных признаков.
+
+        Parameters:
+        - x: numpy array, признаки
+
+        Returns:
+        - y_pred: numpy array, предсказанные значения
+        """
+        if self.weights is None:
+            raise ValueError("Модель не обучена. Обучите модель перед использованием.")
+        # Предсказание: y = X * w
+        y_pred = np.dot(x, self.weights)
+        return y_pred
